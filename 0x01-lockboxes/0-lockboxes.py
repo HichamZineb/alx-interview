@@ -21,16 +21,24 @@ def canUnlockAll(boxes):
         bool: True if all boxes can be opened, else False.
     """
 
-    if type(boxes) is not list:
-        return False
-    elif (len(boxes)) == 0:
-        return False
-    for key in range(1, len(boxes) - 1):
-        checked_boxes = False
-        for index in range(len(boxes)):
-            checked_boxes = key in boxes[index] and key != index
-            if checked_boxes:
-                break
-        if checked_boxes is False:
-            return checked_boxes
-    return True
+    # Number of boxes
+    n = len(boxes)
+
+    # Initialize a set to track opened boxes
+    opened_boxes = {0}
+
+    # Initialize a set to track keys
+    keys = set(boxes[0])
+
+    # Keep looping until no more new keys are found
+    while keys:
+        # Get a key from the set
+        key = keys.pop()
+
+        # Check if the key opens a new box
+        if key < n and key not in opened_boxes:
+            opened_boxes.add(key)
+            keys.update(boxes[key])
+
+    # Check if all boxes are opened
+    return len(opened_boxes) == n
