@@ -2,20 +2,33 @@
 
 
 def canUnlockAll(boxes):
-    if not boxes or not boxes[0]:
-        return False
+    """
+    Determines if all the boxes can be opened.
 
-    num_boxes = len(boxes)
-    unlocked_boxes = [False] * num_boxes
-    unlocked_boxes[0] = True
-    keys_stack = [0]
+    Args:
+        boxes (list): A list of lists where each inner list represents a box.
 
-    while keys_stack:
-        current_box = keys_stack.pop()
+    Returns:
+        bool: True if all boxes can be opened, else False.
+    """
+    # Number of boxes
+    n = len(boxes)
 
-        for key in boxes[current_box]:
-            if 0 <= key < num_boxes and not unlocked_boxes[key]:
-                unlocked_boxes[key] = True
-                keys_stack.append(key)
+    # Initialize a set to track opened boxes
+    opened_boxes = {0}
 
-    return all(unlocked_boxes)
+    # Initialize a set to track keys
+    keys = set(boxes[0])
+
+    # Keep looping until no more new keys are found
+    while keys:
+        # Get a key from the set
+        key = keys.pop()
+
+        # Check if the key opens a new box
+        if key < n and key not in opened_boxes:
+            opened_boxes.add(key)
+            keys.update(boxes[key])
+
+    # Check if all boxes are opened
+    return len(opened_boxes) == n
