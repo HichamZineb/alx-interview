@@ -27,13 +27,3 @@ def makeChange(coins, total):
             dp[amount] = min(dp[amount], dp[amount - coin] + 1)
 
     return dp[total] if dp[total] != float('inf') else -1
-
-
-if __name__ == "__main__":
-    coins1 = [1, 2, 25]
-    total1 = 37
-    print(makeChange(coins1, total1))  # Output: 7
-
-    coins2 = [1256, 54, 48, 16, 102]
-    total2 = 1453
-    print(makeChange(coins2, total2))  # Output: -1
